@@ -5,50 +5,103 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RestWithASP_NETUdemy.Controllers
+namespace RestWithASPNETUdemy.Controllers
 {
     [ApiController]
     [Route("[controller]")]
     public class CalculatorController : ControllerBase
     {
-        private readonly ILogger<ILogger<CalculatorController> logger;
+
+        private readonly ILogger<CalculatorController> _logger;
         public CalculatorController(ILogger<CalculatorController> logger)
         {
             _logger = logger;
         }
 
-        [HttpGet("sum/{firstNumber}/{SecondNumber}")]
-        public IActionResult Get(string firstNumber, string secondNumber)   
+        [HttpGet("sum/{firstNumber}/{secondNumber}")]
+        public IActionResult Sum(string firstNumber, string secondNumber)
         {
             if (IsNumeric(firstNumber) && IsNumeric(secondNumber))
             {
-                var sam = ConvertToDecimal(firstNumber) + ConvertToDecimal(secondNumber);
-                return Ok.(ToString));
+                var sum = ConvertToDecimal(firstNumber) + ConvertToDecimal(secondNumber);
+                return Ok(sum.ToString());
             }
-            
-           return BadRequest("Invalid Input")
+            return BadRequest("Invalid Input");
         }
 
+        [HttpGet("subtraction/{firstNumber}/{secondNumber}")]
+        public IActionResult Subtraction(string firstNumber, string secondNumber)
+        {
+            if (IsNumeric(firstNumber) && IsNumeric(secondNumber))
+            {
+                var sum = ConvertToDecimal(firstNumber) - ConvertToDecimal(secondNumber);
+                return Ok(sum.ToString());
+            }
+            return BadRequest("Invalid Input");
+        }
+
+        [HttpGet("multiplication/{firstNumber}/{secondNumber}")]
+        public IActionResult Multiplication(string firstNumber, string secondNumber)
+        {
+            if (IsNumeric(firstNumber) && IsNumeric(secondNumber))
+            {
+                var sum = ConvertToDecimal(firstNumber) * ConvertToDecimal(secondNumber);
+                return Ok(sum.ToString());
+            }
+            return BadRequest("Invalid Input");
+        }
+
+        [HttpGet("division/{firstNumber}/{secondNumber}")]
+        public IActionResult Division(string firstNumber, string secondNumber)
+        {
+            if (IsNumeric(firstNumber) && IsNumeric(secondNumber))
+            {
+                var sum = ConvertToDecimal(firstNumber) / ConvertToDecimal(secondNumber);
+                return Ok(sum.ToString());
+            }
+            return BadRequest("Invalid Input");
+        }
+
+        [HttpGet("mean/{firstNumber}/{secondNumber}")]
+        public IActionResult Mean(string firstNumber, string secondNumber)
+        {
+            if (IsNumeric(firstNumber) && IsNumeric(secondNumber))
+            {
+                var sum = (ConvertToDecimal(firstNumber) + ConvertToDecimal(secondNumber)) / 2;
+                return Ok(sum.ToString());
+            }
+            return BadRequest("Invalid Input");
+        }
+
+        [HttpGet("square-root/{firstNumber}")]
+        public IActionResult SquareRoot(string firstNumber)
+        {
+            if (IsNumeric(firstNumber))
+            {
+                var squareRoot = Math.Sqrt((double)ConvertToDecimal(firstNumber));
+                return Ok(squareRoot.ToString());
+            }
+            return BadRequest("Invalid Input");
+        }
         private bool IsNumeric(string strNumber)
         {
             double number;
-            bool IsNumber = double.TryParse(
+            bool isNumber = double.TryParse(
                 strNumber,
                 System.Globalization.NumberStyles.Any,
                 System.Globalization.NumberFormatInfo.InvariantInfo,
-                out number;)
-            return IsNumber;
+                out number);
+            return isNumber;
         }
 
         private decimal ConvertToDecimal(string strNumber)
         {
             decimal decimalValue;
-            if(decimal.TryParse(strNumber, out decimalValue))
+            if (decimal.TryParse(strNumber, out decimalValue))
             {
-                return decimalValue
+                return decimalValue;
             }
             return 0;
         }
-
     }
 }
